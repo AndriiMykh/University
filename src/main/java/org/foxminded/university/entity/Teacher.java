@@ -23,7 +23,7 @@ public class Teacher extends Person {
     public static class TeacherBuilder extends PersonBuilder<TeacherBuilder> {
         private String linkedinUrl;
 
-        public TeacherBuilder() {
+        private TeacherBuilder() {
         }
 
         @Override
@@ -39,5 +39,9 @@ public class Teacher extends Person {
             this.linkedinUrl = linkedinUrl;
             return self();
         }
+    }
+
+    public static TeacherBuilder builder() {
+        return new TeacherBuilder();
     }
 }

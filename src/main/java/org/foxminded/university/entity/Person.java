@@ -67,8 +67,7 @@ public abstract class Person {
         Person person = (Person) o;
         return id.equals(person.id) &&
                 firstName.equals(person.firstName) &&
-                lastName.equals(person.lastName) &&
-                birthDate.equals(person.birthDate);
+                lastName.equals(person.lastName);
     }
 
     @Override

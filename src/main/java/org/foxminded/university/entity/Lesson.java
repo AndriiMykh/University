@@ -7,8 +7,20 @@ public class Lesson {
     private final String name;
     private final String description;
 
+    public Lesson(Long id) {
+        this.id = id;
+        this.name = null;
+        this.description = null;
+    }
+
     public Lesson(String name, String description) {
         this.id = null;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Lesson(Long id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
     }

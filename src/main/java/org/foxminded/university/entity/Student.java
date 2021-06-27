@@ -31,7 +31,7 @@ public class Student extends Person {
         private Group group;
         private String studiesType;
 
-        public StudentBuilder() {
+        private StudentBuilder() {
         }
 
         @Override
@@ -52,5 +52,8 @@ public class Student extends Person {
             this.studiesType = studiesType;
             return self();
         }
+    }
+    public static StudentBuilder builder() {
+        return new StudentBuilder();
     }
 }

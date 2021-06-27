@@ -16,6 +16,20 @@ public class Group {
         this.students = new ArrayList<>();
     }
 
+    public Group(long id) {
+        this.id = id;
+        this.name = null;
+        this.students = new ArrayList<>();
+    }
+
+    public Group(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.students = new ArrayList<>();
+    }
+
+
+
     public Long getId() {
         return id;
     }

@@ -51,6 +51,15 @@ public class Address {
         return Objects.hash(id, city, street, flatNumber);
     }
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", flatNumber=" + flatNumber +
+                '}';
+    }
 
     public static class Builder {
         private Long id;

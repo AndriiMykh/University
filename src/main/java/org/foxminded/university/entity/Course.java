@@ -49,6 +49,10 @@ public class Course {
         return lesson;
     }
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -59,13 +63,12 @@ public class Course {
         }
         Course course = (Course) o;
         return Objects.equals(id, course.id) &&
-                Objects.equals(location, course.location) &&
-                Objects.equals(lesson, course.lesson);
+                Objects.equals(location, course.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, location, lesson);
+        return Objects.hash(id, location);
     }
 
     public static class Builder {
@@ -111,5 +114,17 @@ public class Course {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", location='" + location + '\'' +
+                ", groups=" + groups +
+                ", schedule=" + schedule +
+                ", lesson=" + lesson +
+                ", teacher=" + teacher +
+                '}';
     }
 }
