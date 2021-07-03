@@ -58,7 +58,7 @@ public class AddressDao extends AbstractDao<Long, Address> {
     }
 
     @Override
-    Pageable<Address> findAll(Page page) {
+    public Pageable<Address> findAll(Page page) {
         final int startItems = page.getItemsPerPage() * page.getPageNumber();
         List<Address> addresses = jdbcTemplate.query(FIND_ALL_QUERY_PAGEABLE, addressMapper, startItems, page.getItemsPerPage());
         return new Pageable<>(addresses, page.getPageNumber(), page.getItemsPerPage());

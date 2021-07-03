@@ -98,4 +98,10 @@ public class TeacherDaoTest {
         assertThat(teacherDao.findAll(page).getItems())
                 .hasSize(2);
     }
+
+    @Test
+    void getScheduleForTeacherShouldFindSchedule() {
+        assertThat(teacherDao.getScheduleForTeacher(1L))
+                    .isNotEmpty();
+    }
 }

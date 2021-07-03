@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.11</maven.compiler.source>
+        <maven.compiler.target>1.11</maven.compiler.target>
         <spring-version>5.3.8</spring-version>
         <postgres.version>42.2.20</postgres.version>
         <ibatis.version>3.0</ibatis.version>
@@ -20,6 +20,7 @@
         <maven.surefire.plugin>2.19.1</maven.surefire.plugin>
         <junit.platform.surefire.provider>1.1.0</junit.platform.surefire.provider>
         <jacoco.version>0.8.7</jacoco.version>
+        <mockito.core.version>3.9.0</mockito.core.version>
     </properties>
 
     <dependencies>
@@ -83,6 +84,20 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.core.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

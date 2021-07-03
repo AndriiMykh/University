@@ -35,3 +35,13 @@ insert into courses(id, location, schedule_id, lesson_id, teacher_id)
 values (1, 'room 5', 2, 1, 2),
        (2, 'room 13', 3, 3, 1),
        (3, 'room 10', 1, 1, 1);
+
+insert into schedule_dates(schedules_id, dates)
+values (1, '2021-01-01'),
+        (1, '2021-01-01');
+
+insert into courses_groups(courses_id, groups_id)
+values (1, 1),
+       (1, 2),
+       (2,1),
+       (2,2);

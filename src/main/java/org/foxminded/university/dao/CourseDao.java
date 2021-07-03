@@ -62,7 +62,7 @@ public class CourseDao extends AbstractDao<Long, Course> {
     }
 
     @Override
-    Pageable<Course> findAll(Page page) {
+    public Pageable<Course> findAll(Page page) {
         final int startItems = page.getItemsPerPage() * page.getPageNumber();
         List<Course> courses = jdbcTemplate.query(FIND_ALL_QUERY_PAGEABLE, courseMapper, startItems, page.getItemsPerPage());
         return new Pageable<>(courses, page.getPageNumber(), page.getItemsPerPage());

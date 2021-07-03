@@ -102,4 +102,11 @@ public class StudentDaoTest {
         assertThat(studentDao.findAll(page).getItems())
                 .hasSize(2);
     }
+
+    @Test
+    void getScheduleForStudentShouldFindSchedule(){
+        studentDao.getScheduleForStudent(1L);
+        assertThat(studentDao.getScheduleForStudent(1L))
+                .isNotEmpty();
+    }
 }

@@ -53,7 +53,7 @@ public class GroupDao extends AbstractDao<Long, Group>{
     }
 
     @Override
-    Pageable<Group> findAll(Page page) {
+    public Pageable<Group> findAll(Page page) {
         final int startItems = page.getItemsPerPage() * page.getPageNumber();
         List<Group> groups = jdbcTemplate.query(FIND_ALL_QUERY_PAGEABLE, groupMapper, startItems, page.getItemsPerPage());
         return new Pageable<>(groups, page.getPageNumber(), page.getItemsPerPage());

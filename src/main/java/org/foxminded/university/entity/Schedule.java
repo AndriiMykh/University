@@ -1,13 +1,12 @@
 package org.foxminded.university.entity;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Schedule {
     private final Long id;
-    private final Date date;
+    private final LocalDate date;
     private final Time startTime;
     private final Time endTime;
 
@@ -22,7 +21,7 @@ public class Schedule {
         return id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -36,8 +35,7 @@ public class Schedule {
 
     public static class Builder {
         private  Long id;
-        private  Course course;
-        private  Date date;
+        private  LocalDate date;
         private  Time startTime;
         private  Time endTime;
 
@@ -49,17 +47,17 @@ public class Schedule {
             return this;
         }
 
-        public Builder withDate(Date date) {
+        public Builder withDate(LocalDate date) {
             this.date = date;
             return this;
         }
 
-        public Builder withStartTime(Time flatNumber) {
+        public Builder withStartTime(Time startTime) {
             this.startTime = startTime;
             return this;
         }
-        public Builder withEndTime(Time flatNumber) {
-            this.startTime = startTime;
+        public Builder withEndTime(Time endTime) {
+            this.endTime = endTime;
             return this;
         }
 

@@ -62,3 +62,13 @@ create table if not exists courses
     lesson_id int references lessons(id),
     teacher_id int references teachers(id)
 );
+
+create table if not exists schedule_dates(
+    schedules_id int references schedules(id),
+    dates date
+);
+
+create table if not exists courses_groups(
+    courses_id int references courses(id),
+    groups_id int references groups(id)
+);

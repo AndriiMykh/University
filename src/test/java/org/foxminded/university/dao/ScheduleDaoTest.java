@@ -9,6 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -26,7 +27,7 @@ public class ScheduleDaoTest {
         int sizeBefore = scheduleDao.findAll().size();
         Schedule schedule = Schedule.builder()
                 .withId(4L)
-                .withDate(new Date(1000))
+                .withDate(LocalDate.now())
                 .withStartTime(new Time(1000))
                 .withEndTime(new Time(2000))
                 .build();
@@ -48,7 +49,7 @@ public class ScheduleDaoTest {
     void updateShouldUpdateSchedule() {
         Schedule schedule = Schedule.builder()
                 .withId(1L)
-                .withDate(new Date(1000))
+                .withDate(LocalDate.now())
                 .withStartTime(new Time(1000))
                 .withEndTime(new Time(2000))
                 .build();
@@ -80,5 +81,14 @@ public class ScheduleDaoTest {
         Page page = new Page(0,3);
         assertThat(scheduleDao.findAll(page).getItems())
                 .hasSize(3);
+    }
+
+    @Test
+    void insertDatesShouldInsertDates(){
+        final long id = 1L;
+        int sizeBefore = scheduleDao.getDates(id).size();
+        LocalDate localDate = LocalDate.now();
+        scheduleDao.insertDates(id, localDate);
+        assertThat(scheduleDao.getDates(id)).hasSize(sizeBefore + 1);
     }
 }
