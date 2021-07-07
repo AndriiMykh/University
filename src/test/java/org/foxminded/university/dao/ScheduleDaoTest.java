@@ -10,7 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
