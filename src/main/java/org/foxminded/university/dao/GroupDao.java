@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class GroupDao extends AbstractDao<Long, Group>{
+public class GroupDao extends AbstractDao<Long, Group> {
 
     private static final String FIND_ALL = "SELECT * FROM groups";
     private static final String FIND_BY_ID = "SELECT * FROM groups where id = ?";
@@ -20,7 +20,11 @@ public class GroupDao extends AbstractDao<Long, Group>{
     private static final String UPDATE_COURSE = "UPDATE groups set name = ? WHERE id = ?";
     private static final String DELETE_COURSE = "DELETE FROM groups WHERE id = ?";
     private static final String FIND_ALL_QUERY_PAGEABLE = "SELECT * FROM groups ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-    private static final RowMapper<Group> groupMapper = (resultSet, rowNum) -> new Group(resultSet.getLong("id"), resultSet.getString("name"));
+    private static final RowMapper<Group> groupMapper = (resultSet, rowNum) ->
+            Group.builder()
+                    .withId(resultSet.getLong("id"))
+                    .withName(resultSet.getString("name"))
+                    .build();
 
     @Autowired
     public GroupDao(JdbcTemplate jdbcTemplate) {

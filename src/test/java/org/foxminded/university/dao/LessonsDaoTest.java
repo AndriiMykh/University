@@ -21,7 +21,11 @@ public class LessonsDaoTest {
     @Test
     void createShouldCreateALesson() {
         int sizeBefore = lessonDao.findAll().size();
-        Lesson lesson = new Lesson(5L,"English", "English lesson");
+        Lesson lesson =  Lesson.builder()
+                .withId(5L)
+                .withName("English")
+                .withDescription( "English lesson")
+                .build();
         lessonDao.create(lesson);
         assertThat(lessonDao.findAll())
                 .hasSize(sizeBefore+1)
@@ -30,13 +34,21 @@ public class LessonsDaoTest {
 
     @Test
     void findByIdShouldFindLesson() {
-        Lesson lesson = new Lesson(1L, "Physics", "Physic lesson");
+        Lesson lesson =  Lesson.builder()
+                .withId(1L)
+                .withName( "Physics")
+                .withDescription( "Physic lesson")
+                .build();
         assertThat(lessonDao.findById(1L)).hasValue(lesson);
     }
 
     @Test
     void updateShouldUpdateLesson() {
-        Lesson lesson = new Lesson(1L, "English", "English lesson");
+        Lesson lesson = Lesson.builder()
+                .withId(1L)
+                .withName( "English")
+                .withDescription( "English lesson")
+                .build();
         lessonDao.update(lesson);
         assertThat(lessonDao.findById(1L)).hasValue(lesson);
     }
@@ -52,7 +64,11 @@ public class LessonsDaoTest {
 
     @Test
     void findAllShouldFindAllLessons() {
-        Lesson lesson = new Lesson(1L, "Physics", "Physic lesson");
+        Lesson lesson = Lesson.builder()
+                .withId(1L)
+                .withName( "Physics")
+                .withDescription( "Physic lesson")
+                .build();
         assertThat(lessonDao.findAll())
                 .isNotEmpty()
                 .contains(lesson);

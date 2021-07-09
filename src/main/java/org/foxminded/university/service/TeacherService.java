@@ -1,11 +1,11 @@
 package org.foxminded.university.service;
 
+import lombok.AllArgsConstructor;
 import org.foxminded.university.dao.TeacherDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Teacher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,13 +14,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TeacherService {
     private final TeacherDao teacherDao;
-
-    @Autowired
-    public TeacherService(TeacherDao teacherDao) {
-        this.teacherDao = teacherDao;
-    }
 
     public List<Teacher> findAll(){
         return teacherDao.findAll();

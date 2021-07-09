@@ -1,66 +1,19 @@
 package org.foxminded.university.entity;
 
-import java.util.Objects;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@Builder(setterPrefix = "with")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Lesson {
+    @EqualsAndHashCode.Include
     private final Long id;
+
+    @EqualsAndHashCode.Include
     private final String name;
     private final String description;
-
-    public Lesson(Long id) {
-        this.id = id;
-        this.name = null;
-        this.description = null;
-    }
-
-    public Lesson(String name, String description) {
-        this.id = null;
-        this.name = name;
-        this.description = description;
-    }
-
-    public Lesson(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Lesson lesson = (Lesson) o;
-        return Objects.equals(id, lesson.id) &&
-                Objects.equals(name, lesson.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

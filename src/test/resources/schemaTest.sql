@@ -43,7 +43,7 @@ create table if not exists students
     password    varchar(30),
     address_id  int references addresses (id) on delete set null,
     group_id    int references groups (id) on delete set null,
-    studiesType varchar(30)
+    studiesType text
 );
 
 create table if not exists schedules

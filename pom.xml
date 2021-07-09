@@ -21,6 +21,7 @@
         <junit.platform.surefire.provider>1.1.0</junit.platform.surefire.provider>
         <jacoco.version>0.8.7</jacoco.version>
         <mockito.core.version>3.9.0</mockito.core.version>
+        <lombok.version>1.18.20</lombok.version>
     </properties>
 
     <dependencies>
@@ -98,6 +99,13 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.core.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

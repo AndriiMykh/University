@@ -26,7 +26,11 @@ class LessonServiceTest {
     @InjectMocks
     private LessonService service;
 
-    Lesson lesson = new Lesson(1L, "Math", "Math lesson");
+    Lesson lesson =  Lesson.builder()
+            .withId(1L)
+            .withName( "Math")
+            .withDescription("Math lesson")
+            .build();
 
     @Test
     void findAllShouldFindAllLessons() {
@@ -79,8 +83,16 @@ class LessonServiceTest {
 
     private List<Lesson> getLessons(){
         List<Lesson> lessons = new ArrayList<>();
-        lessons.add( new Lesson(1L, "Math", "Math lesson"));
-        lessons.add( new Lesson(2L, "Physics", "Physics lesson"));
+        lessons.add(  Lesson.builder()
+                .withId(1L)
+                .withName( "Math")
+                .withDescription( "Math lesson")
+                .build());
+        lessons.add(  Lesson.builder()
+                .withId(2L)
+                .withName( "Physics")
+                .withDescription( "Physics lesson")
+                .build());
         return lessons;
     }
 }

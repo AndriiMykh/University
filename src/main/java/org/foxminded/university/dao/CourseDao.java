@@ -25,7 +25,7 @@ public class CourseDao extends AbstractDao<Long, Course> {
     private static final String FIND_ALL_QUERY_PAGEABLE = "SELECT * FROM courses ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     private static final RowMapper<Course> courseMapper = (resultSet, rowNum) -> Course.builder()
             .withId(resultSet.getLong("id"))
-            .withLesson(new Lesson(resultSet.getLong("lesson_id")))
+            .withLesson(Lesson.builder().withId(resultSet.getLong("lesson_id")).build())
             .withTeacher( Teacher.builder().withId(resultSet.getLong("lesson_id")).build())
             .withLocation(resultSet.getString("location"))
             .withSchedule( Schedule.builder().withId(resultSet.getLong("schedule_id")).build())

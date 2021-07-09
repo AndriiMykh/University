@@ -26,7 +26,7 @@ class GroupServiceTest {
     @InjectMocks
     private GroupService service;
 
-    private final Group group = new Group(1L, "gi-41");
+    private final Group group = Group.builder().withId(1L).withName("gi-41").build();
     @Test
     void findAllShouldFindAllGroups() {
         when(dao.findAll()).thenReturn(getGroups());
@@ -78,8 +78,8 @@ class GroupServiceTest {
 
     private List<Group> getGroups(){
         List<Group> groups = new ArrayList<>();
-        groups.add(new Group(1L, "gi-41"));
-        groups.add(new Group(2L, "us-48"));
+        groups.add( Group.builder().withId(1L).withName("gi-41").build());
+        groups.add( Group.builder().withId(2L).withName("us-48").build());
         return groups;
     }
 }

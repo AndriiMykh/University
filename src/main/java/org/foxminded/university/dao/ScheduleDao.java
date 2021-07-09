@@ -26,8 +26,8 @@ public class ScheduleDao extends AbstractDao<Long, Schedule> {
     private static final String INSERT_DATES = "INSERT INTO schedule_dates(schedules_id, dates) values (?,?)";
     private static final String FIND_DATES = "SELECT * FROM schedule_dates where schedules_id = ?";
     private static final RowMapper<Schedule> scheduleMapper = (resultSet, rowNum) ->
-             Schedule.builder().
-                    withId(resultSet.getLong("id"))
+            Schedule.builder()
+                    .withId(resultSet.getLong("id"))
                     .withDate(resultSet.getDate("date").toLocalDate())
                     .withStartTime(resultSet.getTime("startTime"))
                     .withEndTime(resultSet.getTime("endTime"))
@@ -40,7 +40,7 @@ public class ScheduleDao extends AbstractDao<Long, Schedule> {
 
     @Override
     public void create(Schedule schedule) {
-        jdbcTemplate.update(INSERT_SCHEDULE,  schedule.getDate(), schedule.getStartTime(), schedule.getEndTime());
+        jdbcTemplate.update(INSERT_SCHEDULE, schedule.getDate(), schedule.getStartTime(), schedule.getEndTime());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ScheduleDao extends AbstractDao<Long, Schedule> {
 
     @Override
     public void update(Schedule schedule) {
-        jdbcTemplate.update(UPDATE_SCHEDULE,  schedule.getDate(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId());
+        jdbcTemplate.update(UPDATE_SCHEDULE, schedule.getDate(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId());
     }
 
     @Override
@@ -70,11 +70,11 @@ public class ScheduleDao extends AbstractDao<Long, Schedule> {
         return new Pageable<>(schedules, page.getPageNumber(), page.getItemsPerPage());
     }
 
-    public void insertDates(Long id, LocalDate localDate){
+    public void insertDates(Long id, LocalDate localDate) {
         jdbcTemplate.update(INSERT_DATES, id, localDate);
     }
 
-    public List<LocalDate> getDates(Long id){
+    public List<LocalDate> getDates(Long id) {
         List<Date> dates = jdbcTemplate.query(FIND_DATES, (resultSet, i) -> resultSet.getDate("dates"), id);
         return dates.stream()
                 .map(Date::toLocalDate)

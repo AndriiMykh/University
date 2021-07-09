@@ -21,7 +21,10 @@ public class GroupDaoTest {
     @Test
     void createShouldCreateAGroup() {
         int sizeBefore = groupDao.findAll().size();
-        Group group = new Group(5L, "lk-00");
+        Group group =  Group.builder()
+                .withId(5L)
+                .withName( "lk-00")
+                .build();
         groupDao.create(group);
         assertThat(groupDao.findAll())
                 .hasSize(sizeBefore+1)
@@ -30,13 +33,19 @@ public class GroupDaoTest {
 
     @Test
     void findByIdShouldFindGroup() {
-        Group group = new Group(1L, "fd-41");
+        Group group =  Group.builder()
+                .withId(1L)
+                .withName("fd-41")
+                .build();
         assertThat(groupDao.findById(1L)).hasValue(group);
     }
 
     @Test
     void updateShouldUpdateGroup() {
-        Group group = new Group(1L, "fd-10");
+        Group group =  Group.builder()
+                .withId(1L)
+                .withName("fd-10")
+                .build();
         groupDao.update(group);
         assertThat(groupDao.findById(1L)).hasValue(group);
     }
@@ -52,7 +61,10 @@ public class GroupDaoTest {
 
     @Test
     void findAllShouldFindAllLessons() {
-        Group group = new Group(1L, "fd-41");
+        Group group =  Group.builder()
+                .withId(1L)
+                .withName("fd-41")
+                .build();
         assertThat(groupDao.findAll())
                 .isNotEmpty()
                 .contains(group);

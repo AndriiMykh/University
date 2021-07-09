@@ -7,6 +7,7 @@ import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Student;
+import org.foxminded.university.entity.StudiesType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,8 +41,8 @@ class StudentServiceTest {
             .withPhoneNumber("123132512")
             .withEmail("Mykhailo@gmail.com")
             .withPassword("1111")
-            .withGroup(new Group(1L))
-            .withStudiesType("full-time")
+            .withGroup(Group.builder().withId(1L).build())
+            .withStudiesType(StudiesType.FULL_TIME)
             .build();
 
     @Test
@@ -120,8 +121,8 @@ class StudentServiceTest {
                 .withPhoneNumber("123132512")
                 .withEmail("Mykhailo@gmail.com")
                 .withPassword("1111")
-                .withGroup(new Group(1L))
-                .withStudiesType("full-time")
+                .withGroup(Group.builder().withId(1L).build())
+                .withStudiesType(StudiesType.FULL_TIME)
                 .build());
         students.add(Student.builder()
                 .withId(2L)
@@ -132,8 +133,8 @@ class StudentServiceTest {
                 .withPhoneNumber("123132512")
                 .withEmail("Kyrylo@gmail.com")
                 .withPassword("1111")
-                .withGroup(new Group(1L))
-                .withStudiesType("full-time")
+                .withGroup(Group.builder().withId(1L).build())
+                .withStudiesType(StudiesType.FULL_TIME)
                 .build());
         return students;
     }

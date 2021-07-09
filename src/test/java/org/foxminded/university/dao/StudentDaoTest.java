@@ -4,7 +4,7 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Group;
-import org.foxminded.university.entity.Student;
+import org.foxminded.university.entity.Student;;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.sql.Date;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.foxminded.university.entity.StudiesType.FULL_TIME;
 
 @SpringJUnitConfig(SpringTestConfig.class)
 @Sql(scripts = { "classpath:schemaTest.sql", "classpath:data.sql"})
@@ -35,8 +36,8 @@ public class StudentDaoTest {
                 .withPhoneNumber("123132512")
                 .withEmail("Kyrylo@gmail.com")
                 .withPassword("1111")
-                .withGroup(new Group(1L))
-                .withStudiesType("full-time")
+                .withGroup(Group.builder().withId(1L).build())
+                .withStudiesType(FULL_TIME)
                 .build();
         studentDao.create(student);
 
@@ -67,8 +68,8 @@ public class StudentDaoTest {
                 .withPhoneNumber("123132512")
                 .withEmail("Mykhailo@gmail.com")
                 .withPassword("1111")
-                .withGroup(new Group(1L))
-                .withStudiesType("full-time")
+                .withGroup(Group.builder().withId(1L).build())
+                .withStudiesType(FULL_TIME)
                 .build();
         studentDao.update(student);
         AssertionsForClassTypes.assertThat(studentDao.findById(1L))

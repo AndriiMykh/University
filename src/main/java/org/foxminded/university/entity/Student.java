@@ -1,22 +1,13 @@
 package org.foxminded.university.entity;
 
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+
+@Getter
+@SuperBuilder(setterPrefix = "with")
 public class Student extends Person {
     private final Group group;
-    private final String studiesType;
-
-    protected Student(PersonBuilder<? extends PersonBuilder> personPersonBuilder, Group group, String studiesType) {
-        super(personPersonBuilder);
-        this.group = group;
-        this.studiesType = studiesType;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public String getStudiesType() {
-        return studiesType;
-    }
+    private final StudiesType studiesType;
 
     @Override
     public String toString() {
@@ -25,35 +16,5 @@ public class Student extends Person {
                 ", group=" + group +
                 ", studiesType='" + studiesType + '\'' +
                 '}';
-    }
-
-    public static class StudentBuilder extends PersonBuilder<StudentBuilder>{
-        private Group group;
-        private String studiesType;
-
-        private StudentBuilder() {
-        }
-
-        @Override
-        public StudentBuilder self() {
-            return this;
-        }
-
-        public Student build() {
-            return new Student(self(), group, studiesType);
-        }
-
-        public StudentBuilder withGroup(Group group){
-            this.group = group;
-            return self();
-        }
-
-        public StudentBuilder withStudiesType(String studiesType){
-            this.studiesType = studiesType;
-            return self();
-        }
-    }
-    public static StudentBuilder builder() {
-        return new StudentBuilder();
     }
 }

@@ -1,23 +1,19 @@
 package org.foxminded.university.service;
 
+import lombok.AllArgsConstructor;
 import org.foxminded.university.dao.GroupDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Group;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class GroupService {
-    private GroupDao groupDao;
-
-    @Autowired
-    public GroupService(GroupDao groupDao) {
-        this.groupDao = groupDao;
-    }
+    private final GroupDao groupDao;
 
     public List<Group> findAll() {
         return groupDao.findAll();

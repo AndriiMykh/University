@@ -1,23 +1,19 @@
 package org.foxminded.university.service;
 
+import lombok.AllArgsConstructor;
 import org.foxminded.university.dao.ScheduleDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Schedule;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ScheduleService {
-    private ScheduleDao scheduleDao;
-
-    @Autowired
-    public ScheduleService(ScheduleDao scheduleDao) {
-        this.scheduleDao = scheduleDao;
-    }
+    private final ScheduleDao scheduleDao;
 
     public List<Schedule> findAll() {
         return scheduleDao.findAll();

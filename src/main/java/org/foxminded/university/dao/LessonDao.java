@@ -20,7 +20,11 @@ public class LessonDao extends AbstractDao<Long, Lesson> {
     private static final String UPDATE_LESSON = "UPDATE lessons set name = ?, description = ? WHERE id = ?";
     private static final String DELETE_LESSON= "DELETE FROM lessons WHERE id = ?";
     private static final String FIND_ALL_QUERY_PAGEABLE = "SELECT * FROM lessons ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-    private static final RowMapper<Lesson> lessonMapper = (resultSet, rowNum) -> new Lesson(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getString("description"));
+    private static final RowMapper<Lesson> lessonMapper = (resultSet, rowNum) ->  Lesson.builder()
+            .withId(resultSet.getLong("id"))
+            .withName( resultSet.getString("name"))
+            .withDescription(resultSet.getString("description"))
+            .build();
 
     @Autowired
     public LessonDao(JdbcTemplate jdbcTemplate) {

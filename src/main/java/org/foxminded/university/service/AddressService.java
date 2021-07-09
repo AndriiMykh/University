@@ -1,5 +1,6 @@
 package org.foxminded.university.service;
 
+import lombok.AllArgsConstructor;
 import org.foxminded.university.dao.AddressDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
@@ -11,13 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AddressService {
-    private AddressDao addressDao;
-
-    @Autowired
-    public AddressService(AddressDao addressDao) {
-        this.addressDao = addressDao;
-    }
+    private final AddressDao addressDao;
 
     public List<Address> findAll() {
         return addressDao.findAll();

@@ -1,5 +1,6 @@
 package org.foxminded.university.dao;
 
+import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
@@ -7,12 +8,9 @@ import org.foxminded.university.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public abstract class AbstractDao<K extends Number, T> {
-    JdbcTemplate jdbcTemplate;
-
-    public AbstractDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    protected JdbcTemplate jdbcTemplate;
 
     abstract void create(T entity);
 

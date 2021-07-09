@@ -33,7 +33,11 @@ class CourseServiceTest {
             .withId(4L)
             .withLocation("room 35")
             .withSchedule( Schedule.builder().withId(1L).build())
-            .withLesson(new Lesson(1L, "Physics", "Physic lesson"))
+            .withLesson( Lesson.builder()
+                    .withId(1L)
+                    .withName( "Physics")
+                    .withDescription( "Physic lesson")
+                    .build())
             .withTeacher( Teacher.builder().withId(1L).build())
             .build();
 
@@ -92,14 +96,22 @@ class CourseServiceTest {
                 .withId(4L)
                 .withLocation("room 35")
                 .withSchedule( Schedule.builder().withId(1L).build())
-                .withLesson(new Lesson(1L, "Physics", "Physic lesson"))
+                .withLesson( Lesson.builder()
+                        .withId(1L)
+                        .withName( "Physics")
+                        .withDescription( "Physic lesson")
+                        .build())
                 .withTeacher( Teacher.builder().withId(1L).build())
                 .build());
         courses.add(Course.builder()
                 .withId(4L)
                 .withLocation("room 35")
                 .withSchedule( Schedule.builder().withId(1L).build())
-                .withLesson(new Lesson(1L, "Physics", "Physic lesson"))
+                .withLesson(Lesson.builder()
+                        .withId(1L)
+                        .withName( "Physics")
+                        .withDescription( "Physic lesson")
+                        .build())
                 .withTeacher( Teacher.builder().withId(1L).build())
                 .build());
         return courses;

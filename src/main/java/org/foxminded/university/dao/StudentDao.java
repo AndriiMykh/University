@@ -6,6 +6,7 @@ import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Student;
+import org.foxminded.university.entity.StudiesType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -41,8 +42,8 @@ public class StudentDao extends AbstractDao<Long, Student> {
                     .withEmail(resultSet.getString("email"))
                     .withPassword(resultSet.getString("password"))
                     .withAddress(Address.builder().withId(resultSet.getLong("address_id")).build())
-                    .withGroup(new Group(resultSet.getLong("group_id")))
-                    .withStudiesType(resultSet.getString("studiesType"))
+                    .withGroup(Group.builder().withId(resultSet.getLong("group_id")).build())
+                    .withStudiesType(StudiesType.getType(resultSet.getString("studiesType")))
                     .build();
     private static final RowMapper<Schedule> scheduleMapper = (resultSet, rowNum) ->
             Schedule.builder()

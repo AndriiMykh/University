@@ -28,7 +28,11 @@ public class CourseDaoTest {
                 .withId(4L)
                 .withLocation("room 35")
                 .withSchedule( Schedule.builder().withId(1L).build())
-                .withLesson(new Lesson(1L, "Physics", "Physic lesson"))
+                .withLesson(Lesson.builder()
+                        .withId(1L)
+                        .withName( "Physics")
+                        .withDescription( "Physic lesson")
+                        .build())
                 .withTeacher( Teacher.builder().withId(1L).build())
                 .build();
         courseDao.create(course);
@@ -52,7 +56,11 @@ public class CourseDaoTest {
                 .withId(1L)
                 .withLocation("room 35")
                 .withSchedule( Schedule.builder().withId(1L).build())
-                .withLesson(new Lesson(1L, "Physics", "Physic lesson"))
+                .withLesson(Lesson.builder()
+                        .withId(1L)
+                        .withName( "Physics")
+                        .withDescription( "Physic lesson")
+                        .build())
                 .withTeacher( Teacher.builder().withId(1L).build())
                 .build();
         courseDao.update(course);
