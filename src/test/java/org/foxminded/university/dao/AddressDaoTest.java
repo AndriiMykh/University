@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringJUnitConfig(SpringTestConfig.class)
-@Sql(scripts = { "classpath:schemaTest.sql", "classpath:data.sql"})
+@Sql(scripts = {"classpath:schemaTest.sql", "classpath:data.sql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class AddressDaoTest {
 
@@ -21,7 +21,7 @@ class AddressDaoTest {
     @Test
     void createShouldCreateAnAddress() {
         int sizeBefore = addressDao.findAll().size();
-        Address address =  Address.builder()
+        Address address = Address.builder()
                 .withId(6L)
                 .withStreet("Yunosti")
                 .withCity("Khmelnytskii")
@@ -29,13 +29,13 @@ class AddressDaoTest {
                 .build();
         addressDao.create(address);
         assertThat(addressDao.findAll())
-                .hasSize(sizeBefore+1)
+                .hasSize(sizeBefore + 1)
                 .contains(address);
     }
 
     @Test
     void findByIdShouldFindAddress() {
-        Address address =  Address.builder()
+        Address address = Address.builder()
                 .withId(1L)
                 .withCity("Kyiv")
                 .withStreet("Peremohy")
@@ -62,7 +62,7 @@ class AddressDaoTest {
         addressDao.delete(1L);
         int sizeAfter = addressDao.findAll().size();
         assertThat(sizeAfter)
-                .isEqualTo(sizeBefore-1);
+                .isEqualTo(sizeBefore - 1);
     }
 
     @Test
@@ -80,8 +80,8 @@ class AddressDaoTest {
 
     @Test
     void findAllShouldFindAllAddressesPageable() {
-        Page page = new Page(0,3);
+        Page page = new Page(0, 3);
         assertThat(addressDao.findAll(page).getItems())
-            .hasSize(3);
+                .hasSize(3);
     }
 }

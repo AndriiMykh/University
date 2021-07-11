@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.foxminded.university.entity.StudiesType.FULL_TIME;
 
 @SpringJUnitConfig(SpringTestConfig.class)
-@Sql(scripts = { "classpath:schemaTest.sql", "classpath:data.sql"})
+@Sql(scripts = {"classpath:schemaTest.sql", "classpath:data.sql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class StudentDaoTest {
 
@@ -25,14 +25,14 @@ public class StudentDaoTest {
     private StudentDao studentDao;
 
     @Test
-    void createShouldCreateAStudent(){
+    void createShouldCreateAStudent() {
         int sizeBefore = studentDao.findAll().size();
-        Student student =  Student.builder()
+        Student student = Student.builder()
                 .withId(3L)
                 .withFirstName("Kyrylo")
                 .withLastName("Dymin")
                 .withBirthDate(new Date(1000))
-                .withAddress( Address.builder().withId(3L).build())
+                .withAddress(Address.builder().withId(3L).build())
                 .withPhoneNumber("123132512")
                 .withEmail("Kyrylo@gmail.com")
                 .withPassword("1111")
@@ -42,13 +42,13 @@ public class StudentDaoTest {
         studentDao.create(student);
 
         assertThat(studentDao.findAll())
-                .hasSize(sizeBefore+1)
+                .hasSize(sizeBefore + 1)
                 .contains(student);
     }
 
     @Test
-    void findByIdShouldFindByIdStudent(){
-        Student student =  Student.builder()
+    void findByIdShouldFindByIdStudent() {
+        Student student = Student.builder()
                 .withId(1L)
                 .withFirstName("Dmytro")
                 .withLastName("Serheev")
@@ -58,13 +58,13 @@ public class StudentDaoTest {
     }
 
     @Test
-    void updateShouldUpdateStudent(){
+    void updateShouldUpdateStudent() {
         Student student = Student.builder()
                 .withId(1L)
                 .withFirstName("Daniil")
                 .withLastName("Danilov")
                 .withBirthDate(new Date(1000))
-                .withAddress( Address.builder().withId(3L).build())
+                .withAddress(Address.builder().withId(3L).build())
                 .withPhoneNumber("123132512")
                 .withEmail("Mykhailo@gmail.com")
                 .withPassword("1111")
@@ -82,7 +82,7 @@ public class StudentDaoTest {
         studentDao.delete(1L);
         int sizeAfter = studentDao.findAll().size();
         assertThat(sizeAfter)
-                .isEqualTo(sizeBefore-1);
+                .isEqualTo(sizeBefore - 1);
     }
 
     @Test
@@ -99,15 +99,14 @@ public class StudentDaoTest {
 
     @Test
     void findAllShouldFindAllStudentsPageable() {
-        Page page = new Page(0,2);
+        Page page = new Page(0, 2);
         assertThat(studentDao.findAll(page).getItems())
                 .hasSize(2);
     }
 
     @Test
-    void getScheduleForStudentShouldFindSchedule(){
-        studentDao.getScheduleForStudent(1L);
-        assertThat(studentDao.getScheduleForStudent(1L))
+    void findByEmailShouldFindByEmail() {
+        assertThat(studentDao.findByEmail("Dmytro@gmail.com"))
                 .isNotEmpty();
     }
 }

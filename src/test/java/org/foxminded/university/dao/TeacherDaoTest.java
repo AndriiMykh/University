@@ -1,5 +1,6 @@
 package org.foxminded.university.dao;
 
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Teacher;
@@ -14,22 +15,22 @@ import java.sql.Date;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringJUnitConfig(SpringTestConfig.class)
-@Sql(scripts = { "classpath:schemaTest.sql", "classpath:data.sql"})
+@Sql(scripts = {"classpath:schemaTest.sql", "classpath:data.sql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class TeacherDaoTest {
+class TeacherDaoTest {
 
     @Autowired
     private TeacherDao teacherDao;
 
     @Test
-    void createShouldCreateATeacher(){
+    void createShouldCreateATeacher() {
         int sizeBefore = teacherDao.findAll().size();
-        Teacher teacher =  Teacher.builder()
+        Teacher teacher = Teacher.builder()
                 .withId(3L)
                 .withFirstName("Mykhailo")
                 .withLastName("Dymin")
                 .withBirthDate(new Date(1000))
-                .withAddress( Address.builder().withId(3L).build())
+                .withAddress(Address.builder().withId(3L).build())
                 .withPhoneNumber("123132512")
                 .withEmail("Mykhailo@gmail.com")
                 .withPassword("1111")
@@ -38,12 +39,12 @@ public class TeacherDaoTest {
         teacherDao.create(teacher);
 
         assertThat(teacherDao.findAll())
-                .hasSize(sizeBefore+1)
+                .hasSize(sizeBefore + 1)
                 .contains(teacher);
     }
 
     @Test
-    void findByIdShouldFindByIdTeacher(){
+    void findByIdShouldFindByIdTeacher() {
         Teacher teacher = Teacher.builder()
                 .withId(1L)
                 .withFirstName("Mykola")
@@ -54,13 +55,13 @@ public class TeacherDaoTest {
     }
 
     @Test
-    void updateShouldUpdateTeacher(){
-        Teacher teacher =  Teacher.builder()
+    void updateShouldUpdateTeacher() {
+        Teacher teacher = Teacher.builder()
                 .withId(1L)
                 .withFirstName("Daniil")
                 .withLastName("Danilov")
                 .withBirthDate(new Date(1000))
-                .withAddress( Address.builder().withId(3L).build())
+                .withAddress(Address.builder().withId(3L).build())
                 .withPhoneNumber("123132512")
                 .withEmail("Mykhailo@gmail.com")
                 .withPassword("1111")
@@ -77,7 +78,7 @@ public class TeacherDaoTest {
         teacherDao.delete(1L);
         int sizeAfter = teacherDao.findAll().size();
         assertThat(sizeAfter)
-                .isEqualTo(sizeBefore-1);
+                .isEqualTo(sizeBefore - 1);
     }
 
     @Test
@@ -94,14 +95,14 @@ public class TeacherDaoTest {
 
     @Test
     void findAllShouldFindAllTeachersPageable() {
-        Page page = new Page(0,2);
+        Page page = new Page(0, 2);
         assertThat(teacherDao.findAll(page).getItems())
                 .hasSize(2);
     }
 
     @Test
-    void getScheduleForTeacherShouldFindSchedule() {
-        assertThat(teacherDao.getScheduleForTeacher(1L))
-                    .isNotEmpty();
+    void findByEmailShouldFindByEmail() {
+        assertThat(teacherDao.findByEmail("vlad@gmail.com"))
+                .isNotEmpty();
     }
 }

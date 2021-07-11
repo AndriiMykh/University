@@ -14,9 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringJUnitConfig(SpringTestConfig.class)
-@Sql(scripts = { "classpath:schemaTest.sql", "classpath:data.sql"})
+@Sql(scripts = {"classpath:schemaTest.sql", "classpath:data.sql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CourseDaoTest {
+class CourseDaoTest {
 
     @Autowired
     private CourseDao courseDao;
@@ -27,17 +27,17 @@ public class CourseDaoTest {
         Course course = Course.builder()
                 .withId(4L)
                 .withLocation("room 35")
-                .withSchedule( Schedule.builder().withId(1L).build())
+                .withSchedule(Schedule.builder().withId(1L).build())
                 .withLesson(Lesson.builder()
                         .withId(1L)
-                        .withName( "Physics")
-                        .withDescription( "Physic lesson")
+                        .withName("Physics")
+                        .withDescription("Physic lesson")
                         .build())
-                .withTeacher( Teacher.builder().withId(1L).build())
+                .withTeacher(Teacher.builder().withId(1L).build())
                 .build();
         courseDao.create(course);
         assertThat(courseDao.findAll())
-                .hasSize(sizeBefore+1)
+                .hasSize(sizeBefore + 1)
                 .contains(course);
     }
 
@@ -52,16 +52,16 @@ public class CourseDaoTest {
 
     @Test
     void updateShouldUpdateCourse() {
-        Course course =  Course.builder()
+        Course course = Course.builder()
                 .withId(1L)
                 .withLocation("room 35")
-                .withSchedule( Schedule.builder().withId(1L).build())
+                .withSchedule(Schedule.builder().withId(1L).build())
                 .withLesson(Lesson.builder()
                         .withId(1L)
-                        .withName( "Physics")
-                        .withDescription( "Physic lesson")
+                        .withName("Physics")
+                        .withDescription("Physic lesson")
                         .build())
-                .withTeacher( Teacher.builder().withId(1L).build())
+                .withTeacher(Teacher.builder().withId(1L).build())
                 .build();
         courseDao.update(course);
         assertThat(courseDao.findById(1L)).hasValue(course);
@@ -73,12 +73,12 @@ public class CourseDaoTest {
         courseDao.delete(1L);
         int sizeAfter = courseDao.findAll().size();
         assertThat(sizeAfter)
-                .isEqualTo(sizeBefore-1);
+                .isEqualTo(sizeBefore - 1);
     }
 
     @Test
     void findAllShouldFindAllCourses() {
-        Course course =  Course.builder()
+        Course course = Course.builder()
                 .withId(1L)
                 .withLocation("room 5")
                 .build();
@@ -89,7 +89,7 @@ public class CourseDaoTest {
 
     @Test
     void findAllShouldFindAllCoursesPageable() {
-        Page page = new Page(0,3);
+        Page page = new Page(0, 3);
         assertThat(courseDao.findAll(page).getItems())
                 .hasSize(3);
     }

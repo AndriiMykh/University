@@ -14,15 +14,15 @@ import java.time.LocalDate;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringJUnitConfig(SpringTestConfig.class)
-@Sql(scripts = { "classpath:schemaTest.sql", "classpath:data.sql"})
+@Sql(scripts = {"classpath:schemaTest.sql", "classpath:data.sql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ScheduleDaoTest {
+class ScheduleDaoTest {
 
     @Autowired
     private ScheduleDao scheduleDao;
 
     @Test
-    void createShouldCreateSchedule(){
+    void createShouldCreateSchedule() {
         int sizeBefore = scheduleDao.findAll().size();
         Schedule schedule = Schedule.builder()
                 .withId(4L)
@@ -32,13 +32,13 @@ public class ScheduleDaoTest {
                 .build();
         scheduleDao.create(schedule);
         assertThat(scheduleDao.findAll())
-                .hasSize(sizeBefore+1)
+                .hasSize(sizeBefore + 1)
                 .contains(schedule);
     }
 
     @Test
     void findByIdShouldFindSchedule() {
-        Schedule schedule =  Schedule.builder()
+        Schedule schedule = Schedule.builder()
                 .withId(1L)
                 .build();
         assertThat(scheduleDao.findById(1L)).hasValue(schedule);
@@ -62,7 +62,7 @@ public class ScheduleDaoTest {
         scheduleDao.delete(1L);
         int sizeAfter = scheduleDao.findAll().size();
         assertThat(sizeAfter)
-                .isEqualTo(sizeBefore-1);
+                .isEqualTo(sizeBefore - 1);
     }
 
     @Test
@@ -77,17 +77,29 @@ public class ScheduleDaoTest {
 
     @Test
     void findAllShouldFindAllSchedulesPageable() {
-        Page page = new Page(0,3);
+        Page page = new Page(0, 3);
         assertThat(scheduleDao.findAll(page).getItems())
                 .hasSize(3);
     }
 
     @Test
-    void insertDatesShouldInsertDates(){
+    void insertDatesShouldInsertDates() {
         final long id = 1L;
         int sizeBefore = scheduleDao.getDates(id).size();
         LocalDate localDate = LocalDate.now();
         scheduleDao.insertDates(id, localDate);
         assertThat(scheduleDao.getDates(id)).hasSize(sizeBefore + 1);
+    }
+
+    @Test
+    void getScheduleForTeacherShouldFindSchedule() {
+        assertThat(scheduleDao.getScheduleForTeacher(1L))
+                .isNotEmpty();
+    }
+
+    @Test
+    void getScheduleForStudentShouldFindSchedule() {
+        assertThat(scheduleDao.getScheduleForStudent(1L))
+                .isNotEmpty();
     }
 }

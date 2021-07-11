@@ -11,11 +11,11 @@ values (1, 'Physics', 'Physic lesson'),
        (3, 'Java', 'Java lesson'),
        (4, 'History', 'History lesson');
 
-insert into groups(id, name)
-values (1, 'fd-41'),
-       (2, 'jl-46'),
-       (3, 'ay-82'),
-       (4, 'un-73');
+insert into groups(id, name, availablePlaces)
+values (1, 'fd-41', 15),
+       (2, 'jl-46', 15),
+       (3, 'ay-82', 15),
+       (4, 'un-73', 15);
 
 insert into teachers(id, firstName, lastname, birthDate, phoneNumber, email, password, address_id, linkedinUrl)
 values (1, 'Mykola', 'Serheev', '1980-12-17', '123412412', 'mykola@gmail.com', '1111', 4, 'linkedin.com/in/Mykola/'),

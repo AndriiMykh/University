@@ -15,7 +15,6 @@ import java.util.Optional;
 public class CourseService {
     private final CourseDao courseDao;
 
-
     public List<Course> findAll() {
         return courseDao.findAll();
     }

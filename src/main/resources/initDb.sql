@@ -16,7 +16,8 @@ create table if not exists lessons
 create table if not exists groups
 (
     id         serial primary key,
-    name       varchar(30)
+    name       varchar(30),
+    availablePlaces int
 );
 
 create table if not exists teachers

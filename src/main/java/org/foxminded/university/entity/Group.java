@@ -17,5 +17,6 @@ public class Group {
 
     @EqualsAndHashCode.Include
     private final String name;
+    private final int availablePlaces;
     private final List<Student> students;
 }
