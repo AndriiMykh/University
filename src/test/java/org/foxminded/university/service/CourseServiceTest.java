@@ -3,10 +3,15 @@ package org.foxminded.university.service;
 import org.foxminded.university.dao.CourseDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.AddressDto;
+import org.foxminded.university.dto.CourseDto;
+import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Course;
 import org.foxminded.university.entity.Lesson;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Teacher;
+import org.foxminded.university.mapper.AddressMapper;
+import org.foxminded.university.mapper.CourseMapper;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +22,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static org.foxminded.university.mapper.CourseMapper.courseToCourseDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -52,7 +59,7 @@ class CourseServiceTest {
     void findAllShouldFindAllCourses() {
         when(dao.findAll()).thenReturn(getCourses());
 
-        assertThat(service.findAll(), hasItem(course));
+        assertThat(service.findAll(), hasItem(courseToCourseDto(course)));
     }
 
     @Test
@@ -61,7 +68,8 @@ class CourseServiceTest {
         Pageable<Course> coursesPageable = new Pageable<>(getCourses(), 0, 2);
         when(dao.findAll(page)).thenReturn(coursesPageable);
 
-        assertThat(service.findAll(page), equalTo(coursesPageable));
+        Pageable<CourseDto> addressDtoPageable = new Pageable<>(getCourses().stream().map(CourseMapper::courseToCourseDto).collect(Collectors.toList()), 0, 2);
+        assertThat(service.findAll(page), equalTo(addressDtoPageable));
     }
 
     @Test
@@ -73,14 +81,14 @@ class CourseServiceTest {
 
     @Test
     void createCourse() {
-        service.createCourse(course);
+        service.createCourse(courseToCourseDto(course));
 
         verify(dao).create(course);
     }
 
     @Test
     void updateCourse() {
-        service.updateCourse(course);
+        service.updateCourse(courseToCourseDto(course));
 
         verify(dao).update(course);
     }

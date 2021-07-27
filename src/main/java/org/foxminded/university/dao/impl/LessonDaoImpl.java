@@ -6,6 +6,7 @@ import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Lesson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -43,8 +44,12 @@ public class LessonDaoImpl implements LessonDao {
 
     @Override
     public Optional<Lesson> findById(Long id) {
-        log.info("Look for a lesson in the db with ID={}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, lessonMapper, id));
+        try {
+            log.info("Look for a lesson in the db with ID={}", id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, lessonMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

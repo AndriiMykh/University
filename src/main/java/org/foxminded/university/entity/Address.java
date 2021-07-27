@@ -1,14 +1,16 @@
 package org.foxminded.university.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.ToString;
 
-@Getter
+@Data
 @Builder(setterPrefix = "with")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
+@AllArgsConstructor
 public class Address {
     @EqualsAndHashCode.Include
     private final Long id;

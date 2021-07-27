@@ -8,68 +8,70 @@ create table if not exists addresses
 
 create table if not exists lessons
 (
-    id         serial primary key,
-    name       varchar(30),
-    description     text
+    id          serial primary key,
+    name        varchar(30),
+    description text
 );
 
 create table if not exists groups
 (
-    id         serial primary key,
-    name       varchar(30),
+    id   serial primary key,
+    name varchar(30),
     availablePlaces int
 );
 
 create table if not exists teachers
 (
-    id         serial primary key,
-    firstName       varchar(30),
-    lastName   varchar(30),
-    birthDate     date,
-    phoneNumber         varchar(10),
+    id          serial primary key,
+    firstName   varchar(30),
+    lastName    varchar(30),
+    birthDate   date,
+    phoneNumber varchar(10),
     email       varchar(30),
-    password   varchar(30),
-    address_id     int references addresses(id),
+    password    text,
+    address_id  int references addresses (id) on delete set null,
     linkedinUrl varchar(30)
 );
 
 create table if not exists students
 (
-    id         serial primary key,
-    firstName       varchar(30),
-    lastName   varchar(30),
-    birthDate     date,
-    phoneNumber         varchar(10),
+    id          serial primary key,
+    firstName   varchar(30),
+    lastName    varchar(30),
+    birthDate   date,
+    phoneNumber varchar(10),
     email       varchar(30),
-    password   varchar(30),
-    address_id     int references addresses(id),
-    group_id int references groups(id),
-    studiesType varchar(30)
+    password    text,
+    address_id  int references addresses (id) on delete set null,
+    group_id    int references groups (id) on delete set null,
+    studiesType text
 );
 
 create table if not exists schedules
 (
-       id serial primary key,
-       date date,
-       startTime time,
-       endTime time
+    id        serial primary key,
+    date      date,
+    startTime time,
+    endTime   time
 );
 
 create table if not exists courses
 (
-    id serial primary key,
-    location varchar(30),
-    schedule_id int references schedules(id),
-    lesson_id int references lessons(id),
-    teacher_id int references teachers(id)
+    id          serial primary key,
+    location    varchar(30),
+    schedule_id int references schedules (id) on delete set null,
+    lesson_id   int references lessons (id) on delete set null,
+    teacher_id  int references teachers (id) on delete set null
 );
 
-create table if not exists schedule_dates(
-    schedules_id int references schedules(id),
-    dates date
+create table if not exists schedule_dates
+(
+    schedules_id int references schedules (id) on delete set null,
+    dates        date
 );
 
-create table if not exists courses_groups(
-    courses_id int references courses(id),
-    groups_id int references groups(id)
+create table if not exists courses_groups
+(
+    courses_id int references courses (id)  on delete set null,
+    groups_id  int references groups (id)  on delete set null
 );

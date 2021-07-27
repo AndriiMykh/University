@@ -1,5 +1,6 @@
 package org.foxminded.university.validator;
 
+import org.foxminded.university.dto.TeacherDto;
 import org.foxminded.university.entity.Teacher;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenEmailIsIncorrect() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("Mykhailofdfd")
                 .build();
         assertThatThrownBy(() -> validator.personValidator(teacher))
@@ -25,7 +26,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenEmailIsEmpty() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("")
                 .build();
         assertThatThrownBy(() -> validator.personValidator(teacher))
@@ -35,7 +36,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenEmailIsNull() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .build();
         assertThatThrownBy(() -> validator.personValidator(teacher))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -44,7 +45,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenPasswordDoesntContain4Chars() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("aaa@gmail.com")
                 .withPassword("123")
                 .build();
@@ -55,7 +56,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenPasswordIsNull() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("aaa@gmail.com")
                 .build();
         assertThatThrownBy(() -> validator.personValidator(teacher))
@@ -65,7 +66,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenPasswordIsEmpty() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("aaa@gmail.com")
                 .withPassword("")
                 .build();
@@ -76,7 +77,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenBirthDateIsNull() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("aaa@gmail.com")
                 .withPassword("1234")
                 .build();
@@ -87,7 +88,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldThrowIllegalArgumentExceptionWhenBirthDateIsInFuture() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("aaa@gmail.com")
                 .withPassword("1234")
                 .withBirthDate(convertToDateViaInstant(LocalDate.now().plusWeeks(1)))
@@ -99,7 +100,7 @@ class PersonValidatorTest {
 
     @Test
     void personValidatorShouldNotThrowAnyExceptionWhenValuesAreCorrect() {
-        Teacher teacher = Teacher.builder()
+        TeacherDto teacher = TeacherDto.builder()
                 .withEmail("aaa@gmail.com")
                 .withPassword("1234")
                 .withBirthDate(convertToDateViaInstant(LocalDate.now().minusDays(1)))

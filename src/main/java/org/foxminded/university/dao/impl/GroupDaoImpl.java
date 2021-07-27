@@ -6,6 +6,7 @@ import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Group;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -45,8 +46,12 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public Optional<Group> findById(Long id) {
-        log.info("Look for an group in the db with ID={}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, groupMapper, id));
+        try {
+            log.info("Look for an group in the db with ID={}", id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, groupMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

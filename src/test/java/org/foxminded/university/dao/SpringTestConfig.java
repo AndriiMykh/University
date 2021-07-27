@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("org.foxminded.university")
+@ComponentScan("org.foxminded.university.dao")
 public class SpringTestConfig {
 
     @Bean

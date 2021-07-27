@@ -1,12 +1,15 @@
 package org.foxminded.university.service;
 
+import org.foxminded.university.dao.AddressDao;
 import org.foxminded.university.dao.TeacherDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.TeacherDto;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Teacher;
 import org.foxminded.university.exception.ServiceException;
+import org.foxminded.university.mapper.TeacherMapper;
 import org.foxminded.university.validator.PersonValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,8 +24,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.foxminded.university.mapper.TeacherMapper.teacherToTeacherDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -40,6 +45,9 @@ class TeacherServiceTest {
 
     @Mock
     private PersonValidator personValidator;
+
+    @Mock
+    private AddressDao addressDao;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -63,7 +71,7 @@ class TeacherServiceTest {
     void findAllShouldFindAllTeachers() {
         when(dao.findAll()).thenReturn(getTeachers());
 
-        assertThat(service.findAll(), hasItem(teacher));
+        assertThat(service.findAll(), hasItem(teacherToTeacherDto(teacher)));
     }
 
     @Test
@@ -72,7 +80,8 @@ class TeacherServiceTest {
         Pageable<Teacher> teacherPageable = new Pageable<>(getTeachers(), 0, 2);
         when(dao.findAll(page)).thenReturn(teacherPageable);
 
-        assertThat(service.findAll(page), equalTo(teacherPageable));
+        Pageable<TeacherDto> teacherDtoPageable = new Pageable<>(getTeachers().stream().map(TeacherMapper::teacherToTeacherDto).collect(Collectors.toList()), 0, 2);
+        assertThat(service.findAll(page), equalTo(teacherDtoPageable));
     }
 
     @Test
@@ -94,14 +103,15 @@ class TeacherServiceTest {
                 .withPassword(null)
                 .withLinkedinUrl("linkedin.com/in/Mykhailo/")
                 .build();
-        service.createTeacher(teacher);
+        service.registerTeacher(teacherToTeacherDto(teacher));
 
         verify(dao).create(teacher);
+        verify(addressDao).createAndReturnId(Address.builder().withId(3L).build());
     }
 
     @Test
     void updateTeacherShouldUpdateTeacher() {
-        service.updateTeacher(teacher);
+        service.updateTeacher(teacherToTeacherDto(teacher));
 
         verify(dao).update(teacher);
     }
@@ -120,7 +130,7 @@ class TeacherServiceTest {
         when(passwordEncoder.matches("1111", "1111")).thenReturn(true);
 
         assertDoesNotThrow(() -> service.authenticateTeacher("Mykhailo@gmail.com", "1111"));
-        assertThat(service.authenticateTeacher("Mykhailo@gmail.com", "1111"), equalTo(teacher));
+        assertThat(service.authenticateTeacher("Mykhailo@gmail.com", "1111"), equalTo(teacherToTeacherDto(teacher)));
     }
 
     @Test

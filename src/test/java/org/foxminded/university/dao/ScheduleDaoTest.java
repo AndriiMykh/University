@@ -102,4 +102,10 @@ class ScheduleDaoTest {
         assertThat(scheduleDao.getScheduleForStudent(1L))
                 .isNotEmpty();
     }
+
+    @Test
+    void findByIdshouldThrowEmptyReturnEmptyWhenScheduleDoesntExist(){
+        assertThat(scheduleDao.findById(1000L))
+                .isEmpty();
+    }
 }

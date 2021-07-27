@@ -6,12 +6,13 @@ import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,6 +47,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
                     .withStartTime(resultSet.getTime("startTime"))
                     .withEndTime(resultSet.getTime("endTime"))
                     .build();
+
+
     private static final RowMapper<Schedule> scheduleMapperWithoutId = (resultSet, rowNum) ->
             Schedule.builder()
                     .withDate(resultSet.getDate("date").toLocalDate())
@@ -66,7 +69,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
     @Override
     public Optional<Schedule> findById(Long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, scheduleMapper, id));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, scheduleMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

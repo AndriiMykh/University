@@ -3,8 +3,10 @@ package org.foxminded.university.service;
 import org.foxminded.university.dao.ScheduleDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.ScheduleDto;
 import org.foxminded.university.entity.Schedule;
-import org.hamcrest.MatcherAssert;
+import org.foxminded.university.exception.ServiceException;
+import org.foxminded.university.mapper.ScheduleMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +18,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.foxminded.university.mapper.ScheduleMapper.scheduleToScheduleDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -47,7 +52,7 @@ class ScheduleServiceTest {
     void findAllShouldFindAllSchedules() {
         when(dao.findAll()).thenReturn(getSchedules());
 
-        assertThat(service.findAll(), hasItem(schedule));
+        assertThat(service.findAll(), hasItem(scheduleToScheduleDto(schedule)));
     }
 
     @Test
@@ -56,7 +61,8 @@ class ScheduleServiceTest {
         Pageable<Schedule> schedulePageable = new Pageable<>(getSchedules(), 0, 2);
         when(dao.findAll(page)).thenReturn(schedulePageable);
 
-        assertThat(service.findAll(page), equalTo(schedulePageable));
+        Pageable<ScheduleDto> scheduleDtoPageable = new Pageable<>(getSchedules().stream().map(ScheduleMapper::scheduleToScheduleDto).collect(Collectors.toList()), 0, 2);
+        assertThat(service.findAll(page), equalTo(scheduleDtoPageable));
     }
 
     @Test
@@ -68,14 +74,14 @@ class ScheduleServiceTest {
 
     @Test
     void createScheduleShouldUseCreateMethod() {
-        service.createSchedule(schedule);
+        service.createSchedule(scheduleToScheduleDto(schedule));
 
         verify(dao).create(schedule);
     }
 
     @Test
     void updateScheduleShouldUseUpdateMethod() {
-        service.updateSchedule(schedule);
+        service.updateSchedule(scheduleToScheduleDto(schedule));
 
         verify(dao).update(schedule);
     }
@@ -114,6 +120,15 @@ class ScheduleServiceTest {
         Long id = 5L;
         when(dao.getScheduleForTeacher(id)).thenReturn(getSchedules());
         assertThat(service.getScheduleForTeacherForMonth(id), hasSize(2));
+    }
+
+    @Test
+    void findByIdShouldThrowServiceExceptionWhenIdNotFound() {
+        when(dao.findById(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> service.findById(1L))
+                .isExactlyInstanceOf(ServiceException.class)
+                .hasMessage("Schedule not found with id: 1");
     }
 
     private List<Schedule> getSchedules() {

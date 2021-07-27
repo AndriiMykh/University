@@ -7,6 +7,7 @@ import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -55,7 +56,11 @@ public class TeacherDaoImpl implements TeacherDao {
 
     @Override
     public Optional<Teacher> findById(Long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, teacherMapper, id));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, teacherMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -89,6 +94,10 @@ public class TeacherDaoImpl implements TeacherDao {
     @Override
     public Optional<Teacher> findByEmail(String email) {
         log.info("Try to find password for the teacher by email");
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL, teacherMapper, email));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL, teacherMapper, email));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

@@ -5,12 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.foxminded.university.dao.GroupDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.CourseDto;
+import org.foxminded.university.dto.GroupDto;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.exception.ServiceException;
+import org.foxminded.university.mapper.CourseMapper;
+import org.foxminded.university.mapper.GroupMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.foxminded.university.mapper.GroupMapper.groupDtoToGroup;
+import static org.foxminded.university.mapper.GroupMapper.groupToGroupDto;
 
 @Service
 @AllArgsConstructor
@@ -18,24 +26,35 @@ import java.util.Optional;
 public class GroupService {
     private final GroupDao groupDao;
 
-    public List<Group> findAll() {
-        return groupDao.findAll();
+    public List<GroupDto> findAll() {
+        return groupDao.findAll()
+                .stream()
+                .map(GroupMapper::groupToGroupDto)
+                .collect(Collectors.toList());
     }
 
-    public Pageable<Group> findAll(Page page) {
-        return groupDao.findAll(page);
+    public Pageable<GroupDto> findAll(Page page) {
+        List<GroupDto> groupDtos = groupDao.findAll(page).getItems()
+                .stream()
+                .map(GroupMapper::groupToGroupDto)
+                .collect(Collectors.toList());
+        return new Pageable<>(groupDtos, page.getPageNumber(), page.getItemsPerPage());
     }
 
-    public Optional<Group> findById(Long id) {
-        return groupDao.findById(id);
+    public GroupDto findById(Long id) {
+        Optional<Group> group = groupDao.findById(id);
+        if(group.isEmpty()){
+            throw new ServiceException("Group not found with id: "+ id);
+        }
+        return groupToGroupDto(group.get());
     }
 
-    public void createGroup(Group group) {
-        groupDao.create(group);
+    public void createGroup(GroupDto group) {
+        groupDao.create(groupDtoToGroup(group));
     }
 
-    public void updateGroup(Group group) {
-        groupDao.update(group);
+    public void updateGroup(GroupDto group) {
+        groupDao.update(groupDtoToGroup(group));
     }
 
     public void deleteGroupById(Long id) {
@@ -43,7 +62,7 @@ public class GroupService {
     }
 
     public void assignStudentToGroup(Long studentId, Long groupId) {
-        Optional<Group> foundGroup = findById(groupId);
+        Optional<Group> foundGroup = groupDao.findById(groupId);
         if (foundGroup.isPresent()) {
             Group group = foundGroup.get();
             if (group.getAvailablePlaces() > 0) {

@@ -3,8 +3,12 @@ package org.foxminded.university.service;
 import org.foxminded.university.dao.GroupDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.CourseDto;
+import org.foxminded.university.dto.GroupDto;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.exception.ServiceException;
+import org.foxminded.university.mapper.CourseMapper;
+import org.foxminded.university.mapper.GroupMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,8 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.foxminded.university.mapper.GroupMapper.groupToGroupDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -40,7 +46,7 @@ class GroupServiceTest {
     void findAllShouldFindAllGroups() {
         when(dao.findAll()).thenReturn(getGroups());
 
-        assertThat(service.findAll(), hasItem(group));
+        assertThat(service.findAll(), hasItem(groupToGroupDto(group)));
     }
 
     @Test
@@ -49,7 +55,8 @@ class GroupServiceTest {
         Pageable<Group> groupPageable = new Pageable<>(getGroups(), 0, 2);
         when(dao.findAll(page)).thenReturn(groupPageable);
 
-        assertThat(service.findAll(page), equalTo(groupPageable));
+        Pageable<GroupDto> groupDtoPageable = new Pageable<>(getGroups().stream().map(GroupMapper::groupToGroupDto).collect(Collectors.toList()), 0, 2);
+        assertThat(service.findAll(page), equalTo(groupDtoPageable));
     }
 
     @Test
@@ -61,14 +68,14 @@ class GroupServiceTest {
 
     @Test
     void createGroupShouldUseCreateMethod() {
-        service.createGroup(group);
+        service.createGroup(groupToGroupDto(group));
 
         verify(dao).create(group);
     }
 
     @Test
     void updateGroupShouldUseUpdateMethod() {
-        service.updateGroup(group);
+        service.updateGroup(groupToGroupDto(group));
 
         verify(dao).update(group);
     }

@@ -1,16 +1,18 @@
 package org.foxminded.university.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
 
-@Getter
+@Data
 @Builder(setterPrefix = "with")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
+@AllArgsConstructor
 public class Group {
     @EqualsAndHashCode.Include
     private final Long id;

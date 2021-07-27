@@ -3,9 +3,11 @@ package org.foxminded.university.entity;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
+@Setter
 @Builder(setterPrefix = "with")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString

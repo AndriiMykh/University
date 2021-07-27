@@ -1,6 +1,6 @@
 package org.foxminded.university.validator;
 
-import org.foxminded.university.entity.Person;
+import org.foxminded.university.dto.PersonDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,20 +11,20 @@ public class PersonValidator {
     private static final String PASSWORD_PATTERN = "^[^\\s]{4,}$";
     private static final String EMPTY_MESSAGE = "Cannot be empty";
 
-    public void personValidator(Person person) {
+    public void personValidator(PersonDto person) {
         emailValidator(person);
         passwordValidator(person);
         birthDateValidator(person);
     }
 
-    private void emailValidator(Person person) {
+    private void emailValidator(PersonDto person) {
         validateIfNotEmpty(person.getEmail());
         if (!person.getEmail().matches(EMAIL_PATTERN)) {
             throw new IllegalArgumentException("Wrong format of email");
         }
     }
 
-    private void passwordValidator(Person person) {
+    private void passwordValidator(PersonDto person) {
         validateIfNotEmpty(person.getPassword());
         if (!person.getPassword().matches(PASSWORD_PATTERN)) {
             throw new IllegalArgumentException("Please provide at least 4 characters");
@@ -40,7 +40,7 @@ public class PersonValidator {
         }
     }
 
-    private void birthDateValidator(Person person) {
+    private void birthDateValidator(PersonDto person) {
         if (person.getBirthDate() == null) {
             throw new IllegalArgumentException(EMPTY_MESSAGE);
         }

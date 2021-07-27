@@ -9,6 +9,7 @@ import org.foxminded.university.entity.Lesson;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,7 @@ public class CourseDaoImpl implements CourseDao {
     private static final RowMapper<Course> courseMapper = (resultSet, rowNum) -> Course.builder()
             .withId(resultSet.getLong("id"))
             .withLesson(Lesson.builder().withId(resultSet.getLong("lesson_id")).build())
-            .withTeacher(Teacher.builder().withId(resultSet.getLong("lesson_id")).build())
+            .withTeacher(Teacher.builder().withId(resultSet.getLong("teacher_id")).build())
             .withLocation(resultSet.getString("location"))
             .withSchedule(Schedule.builder().withId(resultSet.getLong("schedule_id")).build())
             .build();
@@ -48,8 +49,12 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public Optional<Course> findById(Long id) {
-        log.info("Look for an course in the db with ID={}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, courseMapper, id));
+        try {
+            log.info("Look for an course in the db with ID={}", id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, courseMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

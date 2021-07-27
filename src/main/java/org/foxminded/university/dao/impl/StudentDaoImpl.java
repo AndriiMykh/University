@@ -9,6 +9,7 @@ import org.foxminded.university.entity.Group;
 import org.foxminded.university.entity.Student;
 import org.foxminded.university.entity.StudiesType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -53,13 +54,17 @@ public class StudentDaoImpl implements StudentDao {
         jdbcTemplate.update(INSERT_STUDENT, student.getFirstName(), student.getLastName(), student.getBirthDate(),
                 student.getPhoneNumber(), student.getEmail(), student.getPassword(),
                 student.getAddress().getId(), student.getGroup().getId(),
-                student.getStudiesType());
+                student.getStudiesType().toString());
         log.info("created a new student:{}", student);
     }
 
     @Override
     public Optional<Student> findById(Long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, studentMapper, id));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, studentMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -68,7 +73,7 @@ public class StudentDaoImpl implements StudentDao {
         jdbcTemplate.update(UPDATE_STUDENT, student.getFirstName(), student.getLastName(), student.getBirthDate(),
                 student.getPhoneNumber(), student.getEmail(), student.getPassword(),
                 student.getAddress().getId(), student.getGroup().getId(),
-                student.getStudiesType(), student.getId());
+                student.getStudiesType().toString(), student.getId());
     }
 
     @Override
@@ -94,6 +99,10 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public Optional<Student> findByEmail(String email) {
         log.info("Try to find password for the student by email");
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL, studentMapper, email));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL, studentMapper, email));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

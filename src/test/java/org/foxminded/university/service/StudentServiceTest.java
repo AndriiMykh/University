@@ -1,15 +1,18 @@
 package org.foxminded.university.service;
 
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.foxminded.university.dao.AddressDao;
 import org.foxminded.university.dao.StudentDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.StudentDto;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.entity.Schedule;
 import org.foxminded.university.entity.Student;
 import org.foxminded.university.entity.StudiesType;
 import org.foxminded.university.exception.ServiceException;
+import org.foxminded.university.mapper.StudentMapper;
 import org.foxminded.university.validator.PersonValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,16 +27,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.foxminded.university.mapper.StudentMapper.studentToStudentDto;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.internal.util.JavaEightUtil.emptyOptional;
 
 
@@ -41,6 +46,9 @@ import static org.mockito.internal.util.JavaEightUtil.emptyOptional;
 class StudentServiceTest {
     @Mock
     private StudentDao dao;
+
+    @Mock
+    private AddressDao addressDao;
 
     @Mock
     private PersonValidator personValidator;
@@ -68,7 +76,7 @@ class StudentServiceTest {
     void findAllShouldReturnStudentList() {
         when(dao.findAll()).thenReturn(getStudents());
 
-        assertThat(service.findAll(), hasItem(student));
+        assertThat(service.findAll(), hasItem(studentToStudentDto(student)));
     }
 
     @Test
@@ -77,7 +85,8 @@ class StudentServiceTest {
         Pageable<Student> studentPageable = new Pageable<>(getStudents(), 0, 2);
         when(dao.findAll(page)).thenReturn(studentPageable);
 
-        assertThat(service.findAll(page), equalTo(studentPageable));
+        Pageable<StudentDto> studentDtoPageable = new Pageable<>(getStudents().stream().map(StudentMapper::studentToStudentDto).collect(Collectors.toList()), 0, 2);
+        assertThat(service.findAll(page), equalTo(studentDtoPageable));
     }
 
     @Test
@@ -100,14 +109,15 @@ class StudentServiceTest {
                 .withGroup(Group.builder().withId(1L).build())
                 .withStudiesType(StudiesType.FULL_TIME)
                 .build();
-        service.registerStudent(student);
+        service.registerStudent(studentToStudentDto(student));
 
         verify(dao).create(student);
+        verify(addressDao).createAndReturnId(Address.builder().withId(3L).build());
     }
 
     @Test
     void updateStudentShouldUseUpdateMethod() {
-        service.updateStudent(student);
+        service.updateStudent(studentToStudentDto(student));
 
         verify(dao).update(student);
     }
@@ -127,7 +137,7 @@ class StudentServiceTest {
 
         assertDoesNotThrow(() -> service.authenticateStudent("Mykhailo@gmail.com", "1111"));
         AssertionsForClassTypes.assertThat(service.authenticateStudent("Mykhailo@gmail.com", "1111"))
-                .isEqualTo(student);
+                .isEqualTo(studentToStudentDto(student));
     }
 
     @Test

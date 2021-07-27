@@ -3,7 +3,11 @@ package org.foxminded.university.service;
 import org.foxminded.university.dao.LessonDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
+import org.foxminded.university.dto.GroupDto;
+import org.foxminded.university.dto.LessonDto;
 import org.foxminded.university.entity.Lesson;
+import org.foxminded.university.mapper.GroupMapper;
+import org.foxminded.university.mapper.LessonMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,7 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static org.foxminded.university.mapper.LessonMapper.lessonDtoToLesson;
+import static org.foxminded.university.mapper.LessonMapper.lessonToLessonDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -42,7 +49,7 @@ class LessonServiceTest {
     void findAllShouldFindAllLessons() {
         when(dao.findAll()).thenReturn(getLessons());
 
-        assertThat(service.findAll(), hasItem(lesson));
+        assertThat(service.findAll(), hasItem(lessonToLessonDto(lesson)));
     }
 
     @Test
@@ -51,7 +58,8 @@ class LessonServiceTest {
         Pageable<Lesson> lessonPageable = new Pageable<>(getLessons(), 0, 2);
         when(dao.findAll(page)).thenReturn(lessonPageable);
 
-        assertThat(service.findAll(page), equalTo(lessonPageable));
+        Pageable<LessonDto> groupDtoPageable = new Pageable<>(getLessons().stream().map(LessonMapper::lessonToLessonDto).collect(Collectors.toList()), 0, 2);
+        assertThat(service.findAll(page), equalTo(groupDtoPageable));
     }
 
     @Test
@@ -63,14 +71,14 @@ class LessonServiceTest {
 
     @Test
     void createLessonShouldUseCreateMethod() {
-        service.createLesson(lesson);
+        service.createLesson(lessonToLessonDto(lesson));
 
         verify(dao).create(lesson);
     }
 
     @Test
     void updateLessonShouldUseUpdateMethod() {
-        service.updateLesson(lesson);
+        service.updateLesson(lessonToLessonDto(lesson));
 
         verify(dao).update(lesson);
     }

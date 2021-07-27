@@ -28,7 +28,7 @@ create table if not exists teachers
     birthDate   date,
     phoneNumber varchar(10),
     email       varchar(30),
-    password    varchar(30),
+    password    text,
     address_id  int references addresses (id) on delete set null,
     linkedinUrl varchar(30)
 );
@@ -41,7 +41,7 @@ create table if not exists students
     birthDate   date,
     phoneNumber varchar(10),
     email       varchar(30),
-    password    varchar(30),
+    password    text,
     address_id  int references addresses (id) on delete set null,
     group_id    int references groups (id) on delete set null,
     studiesType text
