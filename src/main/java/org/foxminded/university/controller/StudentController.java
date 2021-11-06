@@ -8,14 +8,20 @@ import org.foxminded.university.dto.GroupDto;
 import org.foxminded.university.dto.StudentDto;
 import org.foxminded.university.exception.ServiceException;
 import org.foxminded.university.service.StudentService;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/students/")
@@ -96,8 +102,15 @@ public class StudentController {
     }
 
     @PostMapping("/register")
-    public String saveStudent(@ModelAttribute("student") StudentDto student){
-        service.registerStudent(student);
+    public String saveStudent(@ModelAttribute("student") StudentDto student, Model model){
+        String message;
+        try {
+            service.registerStudent(student);
+        }catch (ServiceException e){
+            message = e.getMessage();
+            model.addAttribute("message", message);
+            return "studentRegistration";
+        }
         return "redirect:/";
     }
 
@@ -107,4 +120,12 @@ public class StudentController {
         return "redirect:/students/all";
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // change the format according to your need.
+        dateFormat.setLenient(false);
+
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
 }

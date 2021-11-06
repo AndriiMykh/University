@@ -32,6 +32,7 @@
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <jsonpath.version>2.6.0</jsonpath.version>
         <jackson.version>2.12.4</jackson.version>
+        <maven.war.plugin>3.3.2</maven.war.plugin>
     </properties>
 
     <dependencies>
@@ -194,6 +195,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>${maven.war.plugin}</version>
+            <type>maven-plugin</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -208,6 +216,13 @@
                         <version>${junit.platform.surefire.provider}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
 
             <plugin>

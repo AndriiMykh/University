@@ -56,7 +56,9 @@ public class StudentService {
     }
 
     public void registerStudent(StudentDto student) {
-        System.out.println(student);
+        if (studentDao.findByEmail(student.getEmail()).isPresent()){
+            throw new ServiceException("Student with such a email already exists");
+        }
         Long addressId = addressDao.createAndReturnId(addressDtoToAddress(student.getAddress()));
         personValidator.personValidator(student);
         Student createdStudent = Student.builder()
