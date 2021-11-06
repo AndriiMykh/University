@@ -1,7 +1,6 @@
 package org.foxminded.university.validator;
 
 import org.foxminded.university.dto.TeacherDto;
-import org.foxminded.university.entity.Teacher;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

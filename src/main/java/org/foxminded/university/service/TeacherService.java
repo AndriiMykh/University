@@ -6,12 +6,10 @@ import org.foxminded.university.dao.AddressDao;
 import org.foxminded.university.dao.TeacherDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
-import org.foxminded.university.dto.StudentDto;
 import org.foxminded.university.dto.TeacherDto;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Teacher;
 import org.foxminded.university.exception.ServiceException;
-import org.foxminded.university.mapper.StudentMapper;
 import org.foxminded.university.mapper.TeacherMapper;
 import org.foxminded.university.validator.PersonValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static org.foxminded.university.mapper.AddressMapper.addressDtoToAddress;
@@ -59,6 +56,9 @@ public class TeacherService {
     }
 
     public void registerTeacher(TeacherDto teacher) {
+        if (teacherDao.findByEmail(teacher.getEmail()).isPresent()){
+            throw new ServiceException("Teacher with such a email already exists");
+        }
         Long addressId = addressDao.createAndReturnId(addressDtoToAddress(teacher.getAddress()));
         personValidator.personValidator(teacher);
         Teacher createdTeacher = Teacher.builder()

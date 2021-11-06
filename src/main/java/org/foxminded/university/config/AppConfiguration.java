@@ -2,19 +2,15 @@ package org.foxminded.university.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jndi.JndiTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @Configuration
@@ -44,12 +40,17 @@ public class AppConfiguration{
     }
 
     @Bean
-    public JdbcTemplate applicationDataConnection(){
-        return new JdbcTemplate(dataSource());
+    public JdbcTemplate applicationDataConnection() throws NamingException {
+        return new JdbcTemplate(JNDIDataSource());
     }
 
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DataSource JNDIDataSource() throws NamingException {
+        return (DataSource) new JndiTemplate().lookup(dbUrl);
     }
 }

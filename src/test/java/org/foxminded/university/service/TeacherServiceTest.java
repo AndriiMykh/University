@@ -152,6 +152,19 @@ class TeacherServiceTest {
                 .hasMessage("Email not found");
     }
 
+    @Test
+    void shouldThrowAServiceExceptionWhenEmailIsPresent(){
+        Teacher teacher = Teacher.builder()
+                .withEmail("Mykhailo@gmail.com")
+                .build();
+
+        when(dao.findByEmail("Mykhailo@gmail.com")).thenReturn(Optional.ofNullable(teacher));
+
+        assertThatThrownBy(() -> service.registerTeacher(teacherToTeacherDto(teacher)))
+                .isExactlyInstanceOf(ServiceException.class)
+                .hasMessage("Teacher with such a email already exists");
+    }
+
     private List<Teacher> getTeachers() {
         List<Teacher> teachers = new ArrayList<>();
         teachers.add(Teacher.builder()

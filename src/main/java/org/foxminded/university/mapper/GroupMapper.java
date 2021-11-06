@@ -1,9 +1,7 @@
 package org.foxminded.university.mapper;
 
-import org.foxminded.university.dto.CourseDto;
 import org.foxminded.university.dto.GroupDto;
 import org.foxminded.university.dto.StudentDto;
-import org.foxminded.university.entity.Course;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.entity.Student;
 

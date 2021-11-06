@@ -95,7 +95,14 @@ public class TeacherController {
 
     @PostMapping("/register")
     public String saveTeacher(@ModelAttribute("teacher") TeacherDto teacher, BindingResult result, Model model) {
-        teacherService.registerTeacher(teacher);
+        String message;
+        try {
+            teacherService.registerTeacher(teacher);
+        }catch (ServiceException e){
+            message = e.getMessage();
+            model.addAttribute("message", message);
+            return "studentRegistration";
+        }
         return "redirect:/";
     }
 

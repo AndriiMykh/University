@@ -4,7 +4,7 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Group;
-import org.foxminded.university.entity.Student;;
+import org.foxminded.university.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -15,6 +15,8 @@ import java.sql.Date;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.foxminded.university.entity.StudiesType.FULL_TIME;
+
+;
 
 @SpringJUnitConfig(SpringTestConfig.class)
 @Sql(scripts = {"classpath:schemaTest.sql", "classpath:data.sql"})

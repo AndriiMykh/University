@@ -6,7 +6,6 @@ import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
 import org.foxminded.university.dto.AddressDto;
 import org.foxminded.university.entity.Address;
-import org.foxminded.university.entity.Student;
 import org.foxminded.university.exception.ServiceException;
 import org.foxminded.university.mapper.AddressMapper;
 import org.springframework.stereotype.Service;

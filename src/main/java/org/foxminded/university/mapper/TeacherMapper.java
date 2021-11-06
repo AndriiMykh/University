@@ -1,8 +1,6 @@
 package org.foxminded.university.mapper;
 
-import org.foxminded.university.dto.StudentDto;
 import org.foxminded.university.dto.TeacherDto;
-import org.foxminded.university.entity.Student;
 import org.foxminded.university.entity.Teacher;
 
 import static org.foxminded.university.mapper.AddressMapper.addressDtoToAddress;

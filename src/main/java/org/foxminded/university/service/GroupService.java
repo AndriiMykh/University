@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.foxminded.university.dao.GroupDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
-import org.foxminded.university.dto.CourseDto;
 import org.foxminded.university.dto.GroupDto;
 import org.foxminded.university.entity.Group;
 import org.foxminded.university.exception.ServiceException;
-import org.foxminded.university.mapper.CourseMapper;
 import org.foxminded.university.mapper.GroupMapper;
 import org.springframework.stereotype.Service;
 

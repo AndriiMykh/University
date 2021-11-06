@@ -1,6 +1,5 @@
 package org.foxminded.university.dao;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.entity.Address;
 import org.foxminded.university.entity.Teacher;

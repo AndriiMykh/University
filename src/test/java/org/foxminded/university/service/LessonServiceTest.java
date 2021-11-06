@@ -3,10 +3,8 @@ package org.foxminded.university.service;
 import org.foxminded.university.dao.LessonDao;
 import org.foxminded.university.domain.Page;
 import org.foxminded.university.domain.Pageable;
-import org.foxminded.university.dto.GroupDto;
 import org.foxminded.university.dto.LessonDto;
 import org.foxminded.university.entity.Lesson;
-import org.foxminded.university.mapper.GroupMapper;
 import org.foxminded.university.mapper.LessonMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.foxminded.university.mapper.LessonMapper.lessonDtoToLesson;
 import static org.foxminded.university.mapper.LessonMapper.lessonToLessonDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
