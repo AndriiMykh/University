@@ -1,0 +1,157 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Fonts -->
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <title>Student registration</title>
+    </head>
+    <p th:insert="header::header"></p>
+    <body>
+        <main class="my-form">
+            <div class="cotainer">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">Register</div>
+                            <div class="card-body">
+                                <form name="my-form" th:action="@{/students/register}" th:object="${student}"
+                                      method="post">
+                                    <div class="form-group row">
+                                        <label for="firstName" class="col-md-4 col-form-label text-md-right">First
+                                            Name</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="firstName" class="form-control" name="firstName"
+                                                   th:field="*{firstName}" required minlength="3">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="lastName" class="col-md-4 col-form-label text-md-right">Last
+                                            Name</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="lastName" class="form-control" name="lastName"
+                                                   th:field="*{lastName}" required minlength="3">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="birthDate" class="col-md-4 col-form-label text-md-right">Birth
+                                            Date</label>
+                                        <div class="col-md-6">
+                                            <input type="date" id="birthDate" class="form-control" name="birthDate"
+                                                   th:field="*{birthDate}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="phone_number" class="col-md-4 col-form-label text-md-right">Phone
+                                            Number</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="phone_number" class="form-control"
+                                                   th:field="*{phoneNumber}" required>
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${message != null}">
+                                        <div class="form-group row">
+                                            <p class="col-md-7 col-form-label text-md-right text-danger"
+                                               th:text="${message}"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail
+                                            Address</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="email_address" class="form-control"
+                                                   name="email-address" th:field="*{email}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="password"
+                                               class="col-md-4 col-form-label text-md-right">Password</label>
+                                        <div class="col-md-6">
+                                            <input type="password" id="password" class="form-control" name="password"
+                                                   th:field="*{password}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="City" class="col-md-4 col-form-label text-md-right">City</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="City" class="form-control"
+                                                   th:field="*{address.city}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Street" class="col-md-4 col-form-label text-md-right">Street</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="Street" class="form-control"
+                                                   th:field="*{address.street}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="flatNumber" class="col-md-4 col-form-label text-md-right">Flat
+                                            number
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="number" id="flatNumber" class="form-control"
+                                                   th:field="*{address.flatNumber}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="groupId" class="col-md-4 col-form-label text-md-right">Group ID
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="number" id="groupId" class="form-control"
+                                                   th:field="*{group.id}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="groupId" class="col-md-4 col-form-label text-md-right">Studies type
+                                        </label>
+                                        <div class="col-md-6">
+                                            <select name="color" th:field="*{studiesType}" required>
+                                                <option th:each="studieType : ${T(org.foxminded.university.entity.StudiesType).values()}"
+                                                        th:value="${studieType}" th:text="${studieType}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            Register
+                                        </button>
+                                    </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </main>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    </body>
+</html>

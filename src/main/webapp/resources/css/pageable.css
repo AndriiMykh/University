@@ -1,0 +1,14 @@
+.manipulate {
+    width:200px;
+    height:200px;
+    background:gray;
+}
+.pInline{
+    display: inline;
+}
+
+.pageParams{
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
